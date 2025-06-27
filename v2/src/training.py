@@ -2,6 +2,7 @@ import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, BatchNormalization, Dropout
 from tensorflow.keras.metrics import Precision, Recall
+from data_visualization import plot_training_history
 
 dataframe = pd.read_csv('../assets/Performance_Augmented_Preprocessed.csv')
 dataframe = dataframe.sample(frac=1, random_state=42)
@@ -24,4 +25,6 @@ model = Sequential(
 )
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', Precision(), Recall()])
-model.fit(x, y, validation_split=0.02, epochs=100, batch_size=32)
+history = model.fit(x, y, validation_split=0.02, epochs=60, batch_size=32)
+
+plot_training_history(history)
